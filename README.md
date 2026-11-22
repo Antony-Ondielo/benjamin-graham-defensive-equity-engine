@@ -4,16 +4,13 @@ An end-to-end financial analytics warehouse and semantic Power BI reporting suit
 
 ## Executive Dashboard Preview
 ### 1. Executive Screening & Intrinsic Value Overview
-![Executive Screener](images/page_01_screener.png)
+![Executive Screener](images/page_01_screener.png.jpeg)
 
-### 2. Forensic Balance Sheet & Footnote Haircuts (KES & USD Guarded)
-![Balance Sheet & Haircuts](images/page_02_balance_sheet.png)
+![Balance Sheet & Haircuts](images/page_02_balance_sheet.png.jpeg)
 
-### 3. 13-Year Earnings & Dividend Continuity (FY2013–FY2025)
-![13-Yr Earnings & Dividends](images/page_03_earnings_dividends.png)
+![13-Yr Earnings & Dividends](images/page_03_earnings_dividends.png.jpeg)
 
-## Data Warehouse Architecture (MySQL 8.0 Galaxy Schema)
-![Galaxy Schema EER Diagram](images/eer_diagram.png)
+![Galaxy Schema EER Diagram](images/eer_diagram.png.png)
 
 * **Relational Warehouse (`sql_00`–`sql_03`):** Normalized Galaxy Schema (`dim_company`, `dim_date`, `dim_graham_rules`, `fact_annual_fundamentals`, `fact_balance_sheet`) with automated `CHECK` constraints, qualitative eligibility exclusions (`SUSPENDED`, `COVID_DIV_MISS`, `REFORMED_DEFICITER`), and multi-layer analytical SQL views (`vw_graham_eps_metrics`, `vw_graham_valuation_matrix`).
 * **Forensic Balance Sheet Adjustments:** Models 23 company-specific footnote deductions—goodwill, intangibles, operating lease ROU assets, deferred tax assets, regulatory assets, and revaluation reserves—to isolate true **Tangible Common Equity (TCE)** and **Tangible Book Value Per Share (TBVPS)**.
