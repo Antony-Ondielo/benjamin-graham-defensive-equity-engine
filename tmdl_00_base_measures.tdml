@@ -1,0 +1,96 @@
+createOrReplace
+
+	table _Measures
+
+		measure 'Total Universe Companies' = COUNTROWS('dim_company')
+			
+		 formatString: 0
+
+
+		measure 'Active Screened Companies' =
+				    CALCULATE(COUNTROWS('dim_company'),
+					 'dim_company'[QUALITATIVE_STATUS] = "ACTIVE")
+		 
+		 formatString: 0
+
+
+		measure 'Qualitative Exclusions' =
+				    CALCULATE(COUNTROWS('dim_company'),
+					 'dim_company'[QUALITATIVE_STATUS] <> "ACTIVE")
+		 
+		 formatString: 0
+
+
+		measure 'Defensive Pass Count' =
+				    CALCULATE(COUNTROWS('vw_graham_valuation_matrix'),
+					 'vw_graham_valuation_matrix'[GRAHAM_VERDICT]
+					     IN {"BUY: AT OR BELOW I.V.", "HOLD RANGE", "TOO DEAR / SELL", "PASS: AWAITING PRICE"})
+		 
+		 formatString: 0
+
+
+		measure 'Buy Candidate Count' =
+				    CALCULATE(COUNTROWS('vw_graham_valuation_matrix'),
+					 'vw_graham_valuation_matrix'[GRAHAM_VERDICT] = "BUY: AT OR BELOW I.V.")
+		 
+		 formatString: 0
+
+
+		measure 'Reported Book Equity' =
+				    IF(HASONEVALUE('dim_company'[CURRENCY_CODE]),
+					 SUM('fact_balance_sheet'[TOTAL_SHAREHOLDERS_EQUITY]),
+					 BLANK())
+		 
+		 formatString: #,##0.00
+
+
+		measure 'Footnote Asset & Equity Deductions' =
+				    IF(HASONEVALUE('dim_company'[CURRENCY_CODE]),
+					 SUMX('fact_balance_sheet',
+					     'fact_balance_sheet'[GOODWILL_SOFTWARE_BRAND] + 'fact_balance_sheet'[INTANGIBLE_ASSETS] + 'fact_balance_sheet'[EQUITY_METHOD_INVESTMENTS] + 'fact_balance_sheet'[RIGHT_OF_USE_ASSETS] + 'fact_balance_sheet'[REGULATORY_WILDFIRE_ASSETS] + 'fact_balance_sheet'[DERIVATIVE_INSURANCE_ASSETS] + 'fact_balance_sheet'[DEFERRED_TAX_ASSETS] + 'fact_balance_sheet'[NON_UTILITY_PROPERTY_SOLO] + 'fact_balance_sheet'[SECURITIZED_ASSETS] + 'fact_balance_sheet'[RISK_MGMT_UNAMORTIZED_ASSETS] + 'fact_balance_sheet'[OTHER_POSTRETIREMENT_ASSETS] + 'fact_balance_sheet'[TREASURY_STOCK] + 'fact_balance_sheet'[MEZZANINE_REDEEMABLE_PREFS] + 'fact_balance_sheet'[PREFERRED_DIVIDEND_ARREARS] + 'fact_balance_sheet'[PREFERRED_STOCK_LIQUIDATION] + 'fact_balance_sheet'[PREFERRED_SHARE_PREMIUM] + 'fact_balance_sheet'[PAYABLE_PROPOSED_DIVIDENDS] + 'fact_balance_sheet'[REVALUATION_SURPLUS] + 'fact_balance_sheet'[OTHER_LIABILITY_RESERVES] + 'fact_balance_sheet'[HEDGE_RESERVES] + 'fact_balance_sheet'[FAIR_VALUE_RESERVES] + 'fact_balance_sheet'[NON_CONTROLLING_INTERESTS]),
+					 BLANK())
+		 
+		 formatString: #,##0.00
+
+
+		measure 'Total Debt Obligations' =
+				    IF(HASONEVALUE('dim_company'[CURRENCY_CODE]),
+					 SUMX('fact_balance_sheet',
+					     'fact_balance_sheet'[SHORT_TERM_DEBT] + 'fact_balance_sheet'[LONG_TERM_DEBT] + 'fact_balance_sheet'[SECURITIES_DEBENTURES_DEBT] + 'fact_balance_sheet'[NOTES_BONDS_COMMERCIAL_PAPER] + 'fact_balance_sheet'[LEASE_LIABILITIES_REDEEMABLE] + 'fact_balance_sheet'[PENSION_ARO_OBLIGATIONS]),
+					 BLANK())
+		 
+		 formatString: #,##0.00
+
+
+		measure 'Annual EPS' = AVERAGE('fact_annual_fundamentals'[EPS_VALUE])
+		 
+		 formatString: 0.0000
+
+
+		measure '10Yr EPS Growth Pct' = AVERAGE('vw_graham_valuation_matrix'[DECADE_EPS_GROWTH])
+		 
+		 formatString: 0.0%
+
+
+		measure 'Margin of Safety Pct' =
+				    AVERAGEX
+					    (FILTER('vw_graham_valuation_matrix',
+						     NOT ISBLANK('vw_graham_valuation_matrix'[GRAHAM_INTRINSIC_VALUE])
+							 && NOT ISBLANK('vw_graham_valuation_matrix'[MR_MARKET_PRICE])
+							 && 'vw_graham_valuation_matrix'[GRAHAM_INTRINSIC_VALUE] > 0),
+					    DIVIDE(('vw_graham_valuation_matrix'[GRAHAM_INTRINSIC_VALUE] - 'vw_graham_valuation_matrix'[MR_MARKET_PRICE]),
+						     'vw_graham_valuation_matrix'[GRAHAM_INTRINSIC_VALUE]))
+		 
+		 formatString: 0.0%
+
+
+		column Value
+			isHidden
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Value]
+
+		partition _Measures = calculated
+			mode: import
+			source = { BLANK() }
+

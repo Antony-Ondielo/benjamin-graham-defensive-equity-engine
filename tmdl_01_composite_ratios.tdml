@@ -1,0 +1,20 @@
+CreateOrReplace
+
+    ref table _Measures
+
+	    measure 'Defensive Pass Rate' = 
+		            DIVIDE([Defensive Pass Count], [Active Screened Companies], 0)
+		 
+		 formatString: 0.0%
+
+
+		measure 'Tangible Common Equity' = 
+		            [Reported Book Equity] - [Footnote Asset & Equity Deductions]
+		 
+		 formatString: #,##0.00
+
+
+		measure 'Equity Haircut Pct' = 
+		            DIVIDE([Footnote Asset & Equity Deductions], [Reported Book Equity], 0)
+		 
+		 formatString: 0.0%
