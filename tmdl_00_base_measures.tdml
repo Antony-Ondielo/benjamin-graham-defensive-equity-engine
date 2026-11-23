@@ -2,7 +2,8 @@ createOrReplace
 
 	table _Measures
 
-		measure 'Total Universe Companies' = COUNTROWS('dim_company')
+		measure 'Total Universe Companies' = 
+                    COUNTROWS('dim_company')
 			
 		 formatString: 0
 
@@ -62,12 +63,14 @@ createOrReplace
 		 formatString: #,##0.00
 
 
-		measure 'Annual EPS' = AVERAGE('fact_annual_fundamentals'[EPS_VALUE])
+		measure 'Annual EPS' = 
+                    AVERAGE('fact_annual_fundamentals'[EPS_VALUE])
 		 
 		 formatString: 0.0000
 
 
-		measure '10Yr EPS Growth Pct' = AVERAGE('vw_graham_valuation_matrix'[DECADE_EPS_GROWTH])
+		measure '10Yr EPS Growth Pct' = 
+                    AVERAGE('vw_graham_valuation_matrix'[DECADE_EPS_GROWTH])
 		 
 		 formatString: 0.0%
 
