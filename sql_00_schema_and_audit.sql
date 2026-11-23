@@ -6,14 +6,18 @@
 
 
 -- A: RESET DATABASE AND BUILD FINAL SCHEMA
-drop database if exists graham_stability_db;
+drop database if exists 
+	graham_stability_db;
 
-create database graham_stability_db
-character set utf8mb4
-collate utf8mb4_unicode_ci; -- Case-insensitive Unicode collation ensures consistent matching across Windows and Linux
+create database 
+	graham_stability_db
+character set 
+	utf8mb4
+collate 
+	utf8mb4_unicode_ci; -- Case-insensitive Unicode collation ensures consistent matching across Windows and Linux
+
 
 use graham_stability_db;
-
 
 -- B: CREATE DIMENSION AND FACT TABLES
 --    B1: SECTOR-SPECIFIC DEFENSIVE THRESHOLDS (INDUSTRIALS VS. REGULATED UTILITIES)
@@ -153,6 +157,7 @@ insert into
         FISCAL_YEAR,
         DECADE_LABEL
         )
+	
 values
 (2013, '2010s'), (2014, '2010s'), (2015, '2010s'), (2016, '2010s'),
 (2017, '2010s'), (2018, '2010s'), (2019, '2010s'), (2020, '2020s'),
@@ -177,6 +182,7 @@ insert into
         MAX_PB_RATIO,
         MAX_OWNERSHIP_CAP
         )
+	
 values
 ('RULE_INDUSTRIAL', 'INDUSTRIAL', 0.3300, 2.0000, 1.0000, null, 22.5000, 15.0000, 20.0000, 25.0000, 1.5000, 0.005000),
 ('RULE_UTILITY', 'UTILITY', 0.3300, null, null, 2.0000, 22.5000, 15.0000, 20.0000, 25.0000, 1.5000, 0.005000);
@@ -198,6 +204,7 @@ insert into
         QUALITATIVE_STATUS,
         REENTRY_ELIGIBLE_YEAR
         )
+	
 values
 ('NYSE:AAON', 'AAON', 'AAON Inc.', 'NYSE', 'USD', 'RULE_INDUSTRIAL', 'HVAC & Industrial Equipment', 'DEC', 'MAR', 'ACTIVE', null),
 ('NYSE:ADM', 'ADM', 'Archer-Daniels-Midland', 'NYSE', 'USD', 'RULE_INDUSTRIAL', 'Agricultural Processing', 'DEC', 'MAR', 'ACTIVE', null),
@@ -221,6 +228,7 @@ insert into
         EPS_VALUE,
         DIVIDEND_PER_SHARE
         )
+	
 values
 ('NYSE:AAON_2013', 'NYSE:AAON', 2013, 0.453300, null),
 ('NYSE:AAON_2014', 'NYSE:AAON', 2014, 0.533300, null),
@@ -276,6 +284,7 @@ insert into
         LEASE_LIABILITIES_REDEEMABLE,
         TOTAL_SHAREHOLDERS_EQUITY
         )
+	
 values
 ('NYSE:AAON_2025', 'NYSE:AAON', 2025, '2026-03-01', 127.1900, 81691075, 869180000.00, 330855000.00, 0.00, 165799000.00, 0.00, 17988000.00, 0.00, 0.00, 0.00, 0.00, 2281000.00, 0.00, 398320000.00, 0.00, 894985000.00),
 ('NYSE:ARTNA_2025', 'NYSE:ARTNA', 2025, '2026-03-01', 31.6600, 10324438, null, null, 0.00, 10024000.00, 413000.00, 12287000.00, 0.00, 1939000.00, 0.00, 1764500.00, 0.00, 2558000.00, 183447000.00, 406000.00, 252798000.00);
@@ -392,8 +401,7 @@ select
     r.MAX_PE_12M,
     r.MAX_PE_7YR
 
-from 
-    dim_company c
+from dim_company c
 join dim_graham_rules r
     on c.SECTOR_RULE_ID = r.SECTOR_RULE_ID
 left join fact_balance_sheet b
@@ -401,6 +409,7 @@ left join fact_balance_sheet b
 left join vw_graham_eps_metrics e
     on c.TICKER_ID = e.TICKER_ID
 ),
+	
 valuation_metrics 
 as
 (
@@ -481,8 +490,7 @@ select
         end 
 	    as GRAHAM_VERDICT
         
-from 
-    valuation_metrics;
+from  valuation_metrics;
 
 
 -- D3: AUDIT VERIFICATION OUTPUT
@@ -497,5 +505,4 @@ select
     GRAHAM_INTRINSIC_VALUE,
     GRAHAM_VERDICT
     
-from 
-    vw_graham_valuation_matrix;
+from  vw_graham_valuation_matrix;
