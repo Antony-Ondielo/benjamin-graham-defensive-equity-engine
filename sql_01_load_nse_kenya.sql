@@ -32,6 +32,7 @@ insert into
         QUALITATIVE_STATUS,
         REENTRY_ELIGIBLE_YEAR
         )
+    
 values
     ('NSE:CARB', 'CARB', 'Carbacid Investments Plc', 'NSE', 'KES', 'RULE_INDUSTRIAL', 'Industrial Gases & Manufacturing', 'JUL', 'NOV', 'ACTIVE', null),
     ('NSE:BAT', 'BAT', 'British American Tobacco Kenya Plc', 'NSE', 'KES', 'RULE_INDUSTRIAL', 'Consumer Manufacturing', 'DEC', 'APR', 'ACTIVE', null),
@@ -61,6 +62,7 @@ insert into
         EPS_VALUE,
         DIVIDEND_PER_SHARE
         )
+    
 values
     ('NSE:CARB_2025', 'NSE:CARB', 2025, 3.940000, null),
     ('NSE:CARB_2024', 'NSE:CARB', 2024, 3.310000, null),
@@ -141,6 +143,7 @@ insert into
         HEDGE_RESERVES,
         TOTAL_SHAREHOLDERS_EQUITY
         )
+    
 values
     ('NSE:CARB_2025', 'NSE:CARB', 2025, '2025-07-31', 36.2000, 254852000, 1691646000.00, 604524000.00, 627110000.00, 3716000.00, 0.00, 0.00, 51516000.00, 500554000.00, 0.00, 0.00, 0.00, 0.00, 0.00, 5096829000.00),
     ('NSE:BAT_2025', 'NSE:BAT', 2025, '2025-12-31', 562.0000, 100000000, 13898130000.00, 6197535000.00, 0.00, 0.00, 229394000.00, 0.00, 0.00, 52405000.00, 0.00, 0.00, 6000000000.00, 2620380000.00, 6684000.00, 15485431000.00),
@@ -158,8 +161,10 @@ select
     TANGIBLE_BVPS,
     GRAHAM_INTRINSIC_VALUE,
     GRAHAM_VERDICT
+    
 from 
     vw_graham_valuation_matrix
+    
 where 
     TICKER_ID like 'NSE:%'
 order by 
