@@ -334,8 +334,10 @@ select
     min(case when f.FISCAL_YEAR between l.LATEST_YEAR - 9 and l.LATEST_YEAR then f.EPS_VALUE end) 
         as MIN_10YR_EPS
     
-from fact_annual_fundamentals f
-join latest_year_cte l
+from 
+	fact_annual_fundamentals f
+join 
+	latest_year_cte l
     on f.TICKER_ID = l.TICKER_ID
 
 group by 
@@ -401,12 +403,16 @@ select
     r.MAX_PE_12M,
     r.MAX_PE_7YR
 
-from dim_company c
-join dim_graham_rules r
+from 
+	dim_company c
+join 
+	dim_graham_rules r
     on c.SECTOR_RULE_ID = r.SECTOR_RULE_ID
-left join fact_balance_sheet b
+left join 
+	fact_balance_sheet b
     on c.TICKER_ID = b.TICKER_ID
-left join vw_graham_eps_metrics e
+left join 
+	vw_graham_eps_metrics e
     on c.TICKER_ID = e.TICKER_ID
 ),
 	
@@ -424,7 +430,8 @@ select
     TOTAL_DEBT / nullif((TOTAL_SHAREHOLDERS_EQUITY - TOTAL_DEDUCTIBLES), 0) 
         as DEBT_TO_BOOK_RATIO
 
-from balance_calculations
+from 
+	balance_calculations
 )
 
 select
@@ -490,7 +497,8 @@ select
         end 
 	    as GRAHAM_VERDICT
         
-from  valuation_metrics;
+from  
+	valuation_metrics;
 
 
 -- D3: AUDIT VERIFICATION OUTPUT
@@ -505,4 +513,5 @@ select
     GRAHAM_INTRINSIC_VALUE,
     GRAHAM_VERDICT
     
-from  vw_graham_valuation_matrix;
+from  
+	vw_graham_valuation_matrix;
