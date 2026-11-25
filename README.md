@@ -2,6 +2,16 @@
 
 An end-to-end financial analytics warehouse and semantic Power BI reporting suite implementing Benjamin Graham's quantitative and qualitative defensive investor framework across **140 equities** spanning US markets (`NYSE`, `NASDAQ`) and the Nairobi Securities Exchange (`NSE`) from **FY2013 to FY2025**.
 
+## What This System Does (Plain-English Overview)
+
+This project replaces slow, error-prone manual financial spreadsheets with an automated **MySQL database** and a **3-page interactive Power BI dashboard** covering 13 years (FY2013–FY2025) of financial statements across **140 US (NYSE, NASDAQ) and Kenyan (NSE) companies**.
+
+- **Automates Data Cleaning & Risk Filtering:** Automatically flags and removes suspended, loss-making, or incomplete company records before they distort reports.
+- **Audits Balance-Sheet Quality:** Strips out 23 non-cash accounting items (goodwill, operating leases, deferred taxes) to reveal true net worth—uncovering a **44.2% average equity overstatement on the NSE** and **62.7% on US markets**.
+- **Prevents Multi-Currency Errors:** Isolates Kenyan Shillings (**KES**) and US Dollars (**USD**) so cross-currency totals never accidentally mix, narrowing **140 companies down to 40 qualified businesses and 1 undervalued buy candidate**.
+
+---
+
 ## Executive Dashboard Preview
 ### 1. Executive Screening & Intrinsic Value Overview
 ![Executive Screener](images/page_01_screener.png.jpeg)
